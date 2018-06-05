@@ -1,0 +1,66 @@
+---
+title: "LiveSession4Homework"
+author: "Rebecca Holsapple"
+date: "June 2, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r results='hide', message=FALSE, warning=FALSE}
+library(fivethirtyeight)
+library(dplyr)
+```
+
+#### FiveThirtyEight Data
+
+```{r}
+# Install the fivethirtyeight package
+
+# Assign the "college_all_ages" to an object 'df'
+college.df<-data.frame(college_all_ages)
+
+# https://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/
+vignette("fivethirtyeight")
+
+# Using R Commands give the dimentions and column names of the data frame
+dim(college.df)
+colnames(college.df)
+
+# write an R Command column names and number of columns but not rows
+names(college.df);ncol(college.df)
+
+# Generate count of each unique major_category assign it to major_count
+
+major_count <- college.df %>% count(major_category, sort = TRUE)
+output <- as.data.frame.matrix(table(major_count))
+participants <- c(0, 30)
+categories <- c(0, 16)
+
+# Barplot major_count
+p <- par(mar = c(4, 11, 2, 2)+0.1)
+  barplot(table(college.df$major_count), 
+  width = 0.8,
+  xlim = participants,
+  ylim = categories,
+  horiz = TRUE,
+  names.arg = colnames(major_count$major_category),
+  col = 'darkgreen',
+  ylab = "Category of Major",
+  xlab = "Count",
+  main = "The Economic Guide To Picking A College Major",
+  cex.names = 0.5,
+  font.lab =2,
+  col.lab = 'darkorange',
+  cex.lab=1,
+  space=0,
+  las=2)
+
+# write to csv file
+  write.csv2(college.df, file = "college.csv", row.names = FALSE)
+```
+#### GitHub link
+
+##### https://github.com/rlholsapple/DDS-Homework
