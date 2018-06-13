@@ -1,0 +1,12 @@
+GIT INSTRUCTIONS for new repositories
+
+git init
+(if there are unidentifed files do git add -A)
+git commit -m "first commit"
+git remote add origin https://github.com/rlholsapple/DDS-Homework.git
+git push -u origin master
+
+git pull https://github.com/rlholsapple/DDS-Homework.git
+git add -A
+git commit -m "Changed the Readme"
+git push -u origin master

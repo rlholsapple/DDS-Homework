@@ -1,0 +1,69 @@
+---
+title: "RHolsapple_Livesession5Homework"
+author: "Rebecca Holsapple"
+date: "June 9, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#### Data Munging 
+```{r}
+# Read in text file
+ df <- read.table("C:\\Users\\Becky\\Desktop\\DDS\\Unit 5\\yob2016 (1).txt", sep=';', header = FALSE)
+ 
+# Name Columns
+ colnames(df) <- c("First.Name","Gender", "Total.2016")
+ 
+# Display Summary and Structure
+ summary(df)
+ structure(df)
+ 
+# Display duplicated name with misspelling
+ grep("yyy$", df$First.Name, value = TRUE)
+ 
+# Remove duplicated name and save new dataframe
+
+row.names.remove <-c("Fionayyy")
+y2016 <-df[!(row.names(df)%in% row.names.remove),]
+
+# Read in text file
+y2015 <- read.table("C:\\Users\\Becky\\Desktop\\DDS\\Unit 5\\yob2015 (1).txt", sep=',', header = FALSE)
+
+# Name Columns
+colnames(y2015) <- c("First.Name","Gender", "Total.2015")
+
+# Display last 10 rows
+tail(y2015, n= 10L)
+# The last 10 rows are all males and each have been assigned 5 times in 2015
+
+# Merge y2016 and y2015
+final <- merge(y2016, y2015, all = FALSE)
+
+# Create a new column "Total" adds amounts 2015, 2016
+final$Total.2016 <- as.numeric(final$Total.2016)
+final$Total.2015 <- as.numeric(final$Total.2015)
+final$Total <- final$Total.2016 + final$Total.2015
+
+# How many people had popular names
+sum(final$Total)
+
+# Sort data by total
+sort.total <- final[order(-final$Total),] 
+
+# 10 most popular names
+head(final[order(final$Total, decreasing= T),], n = 10)
+
+# Omit boys names
+library(plyr)
+head(final[ order(xtfrm(final$Gender), -final$Total), ], n=10)
+
+# write.csv 10 girls names and totals (only)
+top.female<- head(final[ order(xtfrm(final$Gender), -final$Total), ], n=10)
+x<-top.female[c(1,5)]
+write.csv(x, file = "TopFemale.csv",row.names=FALSE)
+
+# uploaded to GitHub https://github.com/rlholsapple/DDS-Homework.git
+```
